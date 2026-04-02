@@ -1,0 +1,107 @@
+.dashboard {
+  max-width: 900px;
+  margin: 2rem auto;
+  background: #fff;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.summary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  align-items: center;
+}
+
+.badge {
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  background: #eee;
+}
+
+.badge.todo {
+  background: #007bff;
+  color: #fff;
+}
+
+.badge.progress {
+  background: #f0ad4e;
+  color: #fff;
+}
+
+.badge.done {
+  background: #5cb85c;
+  color: #fff;
+}
+
+.new-task-btn {
+  margin-left: auto;
+  background: #007bff;
+  color: #fff;
+  border: none;
+  padding: 0.6rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.new-task-btn:hover {
+  background: #0056b3;
+}
+
+.filters {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.task-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.task-table th, .task-table td {
+  border: 1px solid #ddd;
+  padding: 0.6rem;
+  text-align: left;
+}
+
+.no-tasks {
+  text-align: center;
+  padding: 1rem;
+  color: #666;
+}
+
+.priority.low { color: #5bc0de; }
+.priority.medium { color: #f0ad4e; }
+.priority.high { color: #d9534f; }
+.priority.critical { color: #a94442; font-weight: bold; }
+
+.task-form {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  background: #f9f9f9;
+}
+
+.task-form form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.task-form input, .task-form textarea, .task-form select {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+.task-form button {
+  margin-top: 0.5rem;
+  padding: 0.6rem;
+  border: #0056b3;
+}
