@@ -42,19 +42,19 @@ const TaskDashboard: React.FC = () => {
   }, [navigate]);
 
   const fetchTasks = async () => {
-  try {
-    const res = await api.get('/tasks/');
-    console.log('Fetched tasks:', res.data);
+    try {
+      const res = await api.get('/tasks/');
+      console.log('Fetched tasks:', res.data);
 
-    // If API returns { tasks: [...] }
-    const data = Array.isArray(res.data) ? res.data : res.data.tasks || [];
+      // Use the results array from paginated response
+      const data = res.data.results || [];
+      setTasks(data);
+    } catch (err) {
+      console.error('Error fetching tasks', err);
+      navigate('/login');
+    }
+  };
 
-    setTasks(data);
-  } catch (err) {
-    console.error('Error fetching tasks', err);
-    navigate('/login');
-  }
-};
 
   const handleDelete = async (id: number) => {
     await api.delete(`/tasks/${id}/`);
@@ -66,23 +66,30 @@ const TaskDashboard: React.FC = () => {
     setShowForm(true);
   };
 
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
       if (formData.id) {
-        const res = await api.put(`/tasks/${formData.id}/`, formData);
-        setTasks(tasks.map(t => (t.id === formData.id ? res.data : t)));
+        await api.put(`/tasks/${formData.id}/`, formData);
       } else {
-        const res = await api.post('/tasks/', formData);
-        // Add the new task to the list
-        setTasks([...tasks, res.data]);
+        await api.post('/tasks/', formData);
       }
       setShowForm(false);
       setFormData({ id: 0, title: '', description: '', priority: 'medium', status: 'todo', due_date: '' });
+      fetchTasks(); // refresh list from backend
     } catch (err) {
       console.error('Error saving task', err);
     }
-};
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('authToken'); // clear token
+    delete api.defaults.headers.common['Authorization']; // remove header
+    navigate('/login'); // redirect to login page
+  };
+
+
 
   const filteredTasks = tasks.filter(task =>
     (statusFilter === 'all' || task.status === statusFilter) &&
@@ -99,6 +106,7 @@ const TaskDashboard: React.FC = () => {
   return (
     <div className="dashboard">
       <h2>Task Manager</h2>
+      <button className="logout-btn" onClick={handleLogout}>Logout</button>
 
       <div className="summary">
         <span className="badge">Total: {summary.total}</span>
