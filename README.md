@@ -1,20 +1,19 @@
-TASKFLOW-API
-
-
-A full‑stack Task Management System built with Django (REST API) on the backend and React (Vite, Axios, CSS) on the frontend.
-It supports user registration, login with JWT tokens, and task CRUD operations with filtering and status tracking.
-
+📘 Task Manager Frontend
+A React + Vite frontend for the Task Manager application.
+This project provides user authentication (register, login, logout) and a protected dashboard for managing tasks.
 
 🚀 Features
-User Authentication
+Authentication
 
-Register new accounts
+Register new users
 
 Login with JWT token
 
-Token stored in localStorage for session persistence
+Logout clears token and redirects to login
 
-Task Management
+Task Dashboard
+
+View tasks belonging to the logged‑in user
 
 Create, edit, delete tasks
 
@@ -22,85 +21,71 @@ Filter tasks by status and priority
 
 Summary badges (Total, Todo, In Progress, Done)
 
-Protected Dashboard
+Protected Routes
 
-Only accessible to logged‑in users
+Dashboard only accessible when logged in
 
-All API requests include the user’s token
+Redirects to login if no token is found
 
 
 
 🛠️ Tech Stack
-Backend (Django)
+React 18 
 
-Django REST Framework
+Vite (fast dev server and bundler)
 
-JWT Authentication
+Axios (HTTP client for API calls)
 
-Apps: users, tasks
+React Router v6 (routing and navigation)
 
-Frontend (React + Vite)
+CSS (custom styles)
 
-React with TypeScript (optional)
-
-Axios for API requests
-
-Normal CSS for styling
-
-React Router for navigation
 
 📂 Project Structure
 Code
-task_manager/
-├── config/              # Django settings, urls, asgi
-├── apps/
-│   ├── users/           # User models, serializers, views
-│   └── tasks/           # Task models, serializers, views
-├── common/              # Shared utils, permissions, pagination
-├── manage.py
-└── requirements.txt
-
 task-manager-frontend/
 ├── src/
-│   ├── api.ts           # Axios instance
+│   ├── api.ts              # Axios instance with base URL
+│   ├── App.tsx             # Router setup
 │   ├── components/
 │   │   ├── Login.tsx
 │   │   ├── Register.tsx
 │   │   └── TaskDashboard.tsx
-│   ├── App.tsx          # Router setup
-│   └── css/             # CSS files
-└── package.json
+│   ├── css/
+│   │   ├── auth.css
+│   │   └── taskdashboard.css
+│   └── main.tsx            # Entry point
+├── index.html
+├── package.json
+└── vite.config.ts
+
+
 ⚙️ Setup Instructions
-Backend (Django)
-Clone the repo and install dependencies:
-
+1. Clone the repository
 bash
-pip install -r requirements.txt
-Run migrations:
-
-bash
-python manage.py migrate
-Start the server:
-
-bash
-python manage.py runserver
-Backend runs at http://localhost:8000.
-
-Frontend (React + Vite)
-Navigate to frontend folder:
-
-bash
+git clone https://github.com/your-username/task-manager-frontend.git
 cd task-manager-frontend
-Install dependencies:
 
+2. Install dependencies
 bash
 npm install
-Start dev server:
 
+3. Configure API base URL
+Edit src/api.ts to point to your backend (Django server):
+
+ts
+import axios from 'axios';
+
+const api = axios.create({
+  baseURL: 'http://localhost:8000/api',
+});
+export default api;
+
+4. Run the development server
 bash
 npm run dev
-Frontend runs at http://localhost:5173.
-
+Frontend runs at:
+👉 http://localhost:5173
 
 
 🔑 Authentication Flow
@@ -112,7 +97,9 @@ Token stored in localStorage as authToken
 
 Axios attaches Authorization: Bearer <token> to all requests
 
-Dashboard → GET /tasks/ (requires token)
+Dashboard → GET /tasks/ → shows only logged‑in user’s tasks
+
+Logout → clears token and redirects to /login
 
 
 📌 Usage
@@ -122,17 +109,4 @@ Login at /login.
 
 On success, you’re redirected to /dashboard where you can manage tasks.
 
-
-
-🧪 Example API Endpoints
-POST /users/register/ → Register new user
-
-POST /users/login/ → Login and get token
-
-GET /tasks/ → List tasks
-
-POST /tasks/ → Create task
-
-PUT /tasks/:id/ → Update task
-
-DELETE /tasks/:id/ → Delete task
+Use the Logout button to clear session and return to login.
